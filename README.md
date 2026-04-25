@@ -86,7 +86,15 @@ cd ..
 
 ## Como rodar
 
-Abra **dois terminais** na raiz do projeto.
+### Opção 1 — Script automático (recomendado, apenas macOS)
+
+Clique duas vezes no arquivo **`iniciar.sh`** na pasta do projeto.
+
+O script abre os dois servidores automaticamente e já abre o navegador na tela do app.
+
+> Na primeira vez, o macOS pode perguntar se deseja permitir a execução. Clique em **Permitir**.
+
+### Opção 2 — Manual (dois terminais)
 
 **Terminal 1 — Backend:**
 ```bash

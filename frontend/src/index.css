@@ -1,43 +1,61 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Open+Sans:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Open+Sans:wght@300;400;500;600&display=swap');
 @import "tailwindcss";
 
 :root {
-  --gold: #C8A964;
-  --gold-light: #F0E6D3;
-  --blue-dark: #0A1428;
-  --blue-mid: #0D2B4D;
-  --blue-panel: #071523;
+  --gold:        #C8A964;
+  --gold-light:  #F0E6D3;
+  --blue-dark:   #0A1428;
+  --blue-mid:    #0D2B4D;
+  --blue-panel:  #071523;
   --border-gold: #785A28;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { width: 100%; height: 100%; background: #0A1428; }
 
 body {
-  background-color: var(--blue-dark);
-  color: var(--gold-light);
   font-family: 'Open Sans', sans-serif;
-  min-height: 100vh;
+  color: var(--gold-light);
+  scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
-#root {
-  min-height: 100vh;
-}
+#root { min-height: 100vh; }
 
-.panel {
-  background-color: var(--blue-panel);
-  border: 1px solid var(--border-gold);
-}
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #071523; }
+::-webkit-scrollbar-thumb { background: #785A28; border-radius: 2px; }
 
+@keyframes pulse3 {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.3; }
+  40%           { transform: scale(1);   opacity: 1; }
+}
+@keyframes pulse5 {
+  0%, 80%, 100% { transform: scale(0.5); opacity: 0.2; }
+  40%           { transform: scale(1.1); opacity: 1; }
+}
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes fadeScreen {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.7); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(24px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-
-.fade-in {
-  animation: fadeIn 0.4s ease forwards;
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 8px 2px rgba(200,169,100,0.4); }
+  50%       { box-shadow: 0 0 18px 6px rgba(200,169,100,0.8); }
 }
-
-@keyframes pulse {
-  0%, 80%, 100% { opacity: 0.2; transform: scale(0.8); }
-  40%            { opacity: 1;   transform: scale(1.2); }
+@keyframes borderGlow {
+  0%, 100% { box-shadow: 0 0 6px rgba(200,169,100,0.3), inset 0 0 6px rgba(200,169,100,0.05); }
+  50%       { box-shadow: 0 0 14px rgba(200,169,100,0.6), inset 0 0 10px rgba(200,169,100,0.1); }
 }

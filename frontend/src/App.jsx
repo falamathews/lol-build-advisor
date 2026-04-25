@@ -8,6 +8,12 @@ import './index.css'
 
 const POLL_INTERVAL = 5000
 
+const C = {
+  gold: '#C8A964',
+  goldLight: '#F0E6D3',
+  goldBorder: '#785A28',
+}
+
 const ERROR_MESSAGES = {
   GEMINI_KEY_INVALID: {
     text: 'Sua Gemini API Key é inválida ou expirou.',
@@ -61,9 +67,7 @@ export default function App() {
         fetchBuild(data)
         watchForDisconnect()
       }
-    } catch {
-      // backend offline — continua tentando silenciosamente
-    }
+    } catch { /* backend offline */ }
   }
 
   function watchForDisconnect() {
@@ -105,20 +109,33 @@ export default function App() {
   }
 
   if (phase === 'waiting') return <WaitingScreen key="waiting" />
-  if (phase === 'loading') return <LoadingScreen key="loading" champion={gameData?.my_champion} />
+  if (phase === 'loading') return (
+    <LoadingScreen
+      key="loading"
+      champion={gameData?.my_champion}
+      championIcon={gameData?.my_champion_icon}
+    />
+  )
 
   if (phase === 'error') {
     return (
-      <div className="fade-in flex flex-col items-center justify-center min-h-screen gap-4 px-4 text-center">
-        <p className="text-lg font-semibold" style={{ color: '#e74c3c' }}>{error?.text}</p>
+      <div style={{
+        display: 'flex', flexDirection: 'column', alignItems: 'center',
+        justifyContent: 'center', minHeight: '100vh', gap: 16,
+        padding: '0 24px', textAlign: 'center',
+        animation: 'fadeScreen 0.4s ease',
+      }}>
+        <p style={{ fontSize: 17, fontWeight: 600, color: '#e74c3c' }}>{error?.text}</p>
         {error?.hint && (
-          <p className="text-sm max-w-sm" style={{ color: 'var(--gold-light)', opacity: 0.55 }}>{error.hint}</p>
+          <p style={{ fontSize: 13, color: '#8a9bb5', maxWidth: 360 }}>{error.hint}</p>
         )}
-        <button
-          onClick={handleReset}
-          className="mt-2 px-6 py-2 rounded text-sm font-semibold cursor-pointer"
-          style={{ background: 'var(--border-gold)', color: 'var(--gold)' }}
-        >
+        <button onClick={handleReset} style={{
+          marginTop: 8, padding: '10px 32px',
+          fontFamily: 'Cinzel, serif', fontSize: 11, letterSpacing: '0.18em',
+          color: C.gold, background: 'rgba(120,90,40,0.2)',
+          border: `1px solid ${C.goldBorder}`, cursor: 'pointer',
+          textTransform: 'uppercase', transition: 'all 0.2s',
+        }}>
           Tentar novamente
         </button>
       </div>
@@ -126,33 +143,51 @@ export default function App() {
   }
 
   return (
-    <div className="fade-in max-w-3xl mx-auto px-4 py-8 flex flex-col gap-6">
-      <div className="flex items-center justify-between">
-        <h1
-          className="text-xl sm:text-2xl font-bold tracking-widest"
-          style={{ color: 'var(--gold)', fontFamily: 'Cinzel, serif' }}
+    <div style={{ minHeight: '100vh', background: '#0A1428', padding: '24px 32px 48px', animation: 'fadeScreen 0.4s ease' }}>
+      {/* Header */}
+      <div style={{
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        marginBottom: 28, paddingBottom: 16,
+        borderBottom: '1px solid rgba(120,90,40,0.25)',
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+          <svg width="28" height="28" viewBox="0 0 48 48" fill="none">
+            <polygon points="24,4 44,14 44,34 24,44 4,34 4,14" stroke={C.gold} strokeWidth="1.5" fill="none" opacity="0.7"/>
+            <circle cx="24" cy="24" r="5" fill={C.gold} opacity="0.9"/>
+          </svg>
+          <div>
+            <h1 style={{ fontFamily: 'Cinzel, serif', fontSize: 20, fontWeight: 700, color: C.goldLight, letterSpacing: '0.12em' }}>
+              BUILD ADVISOR
+            </h1>
+            <p style={{ fontSize: 10, color: C.gold, opacity: 0.6, letterSpacing: '0.2em', textTransform: 'uppercase' }}>
+              {gameData?.my_champion}
+            </p>
+          </div>
+        </div>
+        <button onClick={handleReset} style={{
+          fontFamily: 'Cinzel, serif', fontSize: 10, letterSpacing: '0.18em',
+          color: '#4a6580', background: 'transparent',
+          border: '1px solid rgba(74,101,128,0.3)', padding: '8px 16px',
+          cursor: 'pointer', textTransform: 'uppercase', transition: 'all 0.2s',
+        }}
+          onMouseEnter={e => { e.currentTarget.style.color = C.gold; e.currentTarget.style.borderColor = C.goldBorder }}
+          onMouseLeave={e => { e.currentTarget.style.color = '#4a6580'; e.currentTarget.style.borderColor = 'rgba(74,101,128,0.3)' }}
         >
-          LoL Build Advisor
-        </h1>
-        <button
-          onClick={handleReset}
-          className="text-xs px-3 py-1.5 rounded cursor-pointer"
-          style={{ border: '1px solid var(--border-gold)', color: 'var(--gold-light)', opacity: 0.6 }}
-        >
-          Nova partida
+          ↩ Nova Partida
         </button>
       </div>
 
-      <ChampionList
-        myChampion={gameData.my_champion}
-        allies={gameData.allies}
-        enemies={gameData.enemies}
-        myChampionIcon={gameData.my_champion_icon}
-        alliesIcons={gameData.allies_icons}
-        enemiesIcons={gameData.enemies_icons}
-      />
-
-      <BuildRecommendation data={buildData} />
+      <div style={{ maxWidth: 900, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 28 }}>
+        <ChampionList
+          myChampion={gameData.my_champion}
+          allies={gameData.allies}
+          enemies={gameData.enemies}
+          myChampionIcon={gameData.my_champion_icon}
+          alliesIcons={gameData.allies_icons}
+          enemiesIcons={gameData.enemies_icons}
+        />
+        <BuildRecommendation data={buildData} />
+      </div>
     </div>
   )
 }

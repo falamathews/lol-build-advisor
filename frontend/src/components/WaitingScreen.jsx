@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 import DingerLogo from './DingerLogo'
 
 const C = {
@@ -6,17 +8,26 @@ const C = {
   goldBorder: '#785A28',
 }
 
+const FEATURES = [
+  { icon: '⚔', label: 'Detecção Automática', desc: 'Identifica sua partida em até 5 segundos' },
+  { icon: '🧠', label: 'Build por IA',        desc: 'Gerada pelo Gemini com base na comp inimiga' },
+  { icon: '📊', label: 'Patch Atual',          desc: 'Itens e dados sempre atualizados' },
+]
+
 export default function WaitingScreen() {
+  const [config, setConfig] = useState({ riot_id: '—', region: 'BR1', patch: '—' })
+
+  useEffect(() => {
+    axios.get('/api/config').then(r => setConfig(r.data)).catch(() => {})
+  }, [])
+
   return (
-    <div style={{
-      position: 'fixed', inset: 0, display: 'flex', flexDirection: 'column',
-      alignItems: 'center', justifyContent: 'center',
-      animation: 'fadeScreen 0.4s ease',
-    }}>
-      {/* Fundo fallback caso a imagem não carregue */}
+    <div style={{ position: 'fixed', inset: 0, animation: 'fadeScreen 0.4s ease' }}>
+
+      {/* Fundo fallback */}
       <div style={{ position: 'absolute', inset: 0, zIndex: 0, background: '#0A1428' }} />
 
-      {/* Heimerdinger — fundo completo */}
+      {/* Heimerdinger */}
       <div style={{ position: 'absolute', inset: 0, zIndex: 1 }}>
         <img
           src="/heimerdinger-bg.png"
@@ -26,39 +37,97 @@ export default function WaitingScreen() {
         />
       </div>
 
-      {/* Overlay escuro sobre a imagem inteira */}
+      {/* Overlay */}
       <div style={{
-        position: 'absolute', inset: 0, zIndex: 2,
-        background: 'linear-gradient(to bottom, rgba(10,20,40,0.45) 0%, rgba(10,20,40,0.55) 40%, rgba(10,20,40,0.82) 70%, #0A1428 100%)',
-        pointerEvents: 'none',
+        position: 'absolute', inset: 0, zIndex: 2, pointerEvents: 'none',
+        background: 'linear-gradient(to bottom, rgba(10,20,40,0.45) 0%, rgba(10,20,40,0.5) 35%, rgba(10,20,40,0.75) 65%, #0A1428 100%)',
       }} />
 
-      {/* Conteúdo */}
+      {/* Riot ID — canto superior esquerdo */}
       <div style={{
-        position: 'relative', zIndex: 3,
-        textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16,
+        position: 'absolute', top: 20, left: 24, zIndex: 4,
+        display: 'flex', alignItems: 'center', gap: 8,
+        animation: 'slideUp 0.5s ease 0.2s both',
       }}>
-        {/* Logo DINGER */}
+        <div style={{
+          width: 6, height: 6, background: '#3ecf6e', borderRadius: '50%',
+          boxShadow: '0 0 6px #3ecf6e',
+        }} />
+        <div>
+          <p style={{ fontFamily: 'Cinzel, serif', fontSize: 11, color: C.gold, letterSpacing: '0.1em' }}>
+            {config.riot_id}
+          </p>
+          <p style={{ fontSize: 9, color: '#4a6580', letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 1 }}>
+            {config.region}
+          </p>
+        </div>
+      </div>
+
+      {/* Patch — canto inferior direito */}
+      <div style={{
+        position: 'absolute', bottom: 24, right: 24, zIndex: 4,
+        textAlign: 'right',
+        animation: 'slideUp 0.5s ease 0.3s both',
+      }}>
+        <p style={{ fontSize: 9, color: '#4a6580', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: 2 }}>
+          Patch Atual
+        </p>
+        <p style={{ fontFamily: 'Cinzel, serif', fontSize: 13, color: C.gold, letterSpacing: '0.1em', opacity: 0.85 }}>
+          {config.patch}
+        </p>
+      </div>
+
+      {/* Conteúdo central */}
+      <div style={{
+        position: 'absolute', inset: 0, zIndex: 3,
+        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+        gap: 16, textAlign: 'center',
+      }}>
         <DingerLogo width={320} uid="waiting" />
 
         {/* Pontos pulsando */}
-        <div style={{ display: 'flex', gap: 10, marginTop: 16 }}>
+        <div style={{ display: 'flex', gap: 10, marginTop: 8 }}>
           {[0, 1, 2].map(i => (
             <div key={i} style={{
-              width: 10, height: 10, borderRadius: '50%',
-              background: C.gold,
+              width: 10, height: 10, borderRadius: '50%', background: C.gold,
               animation: `pulse3 1.4s ease-in-out ${i * 0.22}s infinite`,
             }} />
           ))}
         </div>
 
-        <p style={{ fontSize: 15, color: C.goldLight, opacity: 0.9, marginTop: 8, letterSpacing: '0.04em' }}>
+        <p style={{ fontSize: 15, color: C.goldLight, opacity: 0.9, letterSpacing: '0.04em' }}>
           Aguardando partida...
         </p>
-        <p style={{ fontSize: 12, color: '#8a9bb5', letterSpacing: '0.05em' }}>
-          Inicie uma partida para detectar automaticamente
-        </p>
       </div>
+
+      {/* Cards de funcionalidades — base da tela */}
+      <div style={{
+        position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 4,
+        display: 'flex', justifyContent: 'center', gap: 0,
+        borderTop: '1px solid rgba(120,90,40,0.2)',
+        animation: 'slideUp 0.5s ease 0.4s both',
+      }}>
+        {FEATURES.map((f, i) => (
+          <div key={i} style={{
+            flex: 1, maxWidth: 280, padding: '14px 20px',
+            display: 'flex', alignItems: 'center', gap: 12,
+            borderRight: i < FEATURES.length - 1 ? '1px solid rgba(120,90,40,0.2)' : 'none',
+            background: 'rgba(7,21,35,0.7)',
+            backdropFilter: 'blur(12px)',
+          }}>
+            <span style={{ fontSize: 20, flexShrink: 0 }}>{f.icon}</span>
+            <div>
+              <p style={{ fontFamily: 'Cinzel, serif', fontSize: 10, color: C.gold, letterSpacing: '0.1em', marginBottom: 2 }}>
+                {f.label}
+              </p>
+              <p style={{ fontSize: 10, color: '#4a6580', letterSpacing: '0.03em', lineHeight: 1.4 }}>
+                {f.desc}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+
     </div>
   )
 }

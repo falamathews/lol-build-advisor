@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import DingerLogo from './DingerLogo'
 
 const C = {
   gold: '#C8A964',
@@ -39,6 +40,8 @@ export default function LoadingScreen({ champion, championIcon }) {
         position: 'relative', zIndex: 2,
         textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 20,
       }}>
+        <DingerLogo width={180} uid="loading" />
+
         <p style={{
           fontFamily: 'Cinzel, serif', fontSize: 12, letterSpacing: '0.3em',
           color: C.gold, opacity: 0.7, textTransform: 'uppercase',

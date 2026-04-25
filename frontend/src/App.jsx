@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import axios from 'axios'
 import WaitingScreen from './components/WaitingScreen'
+import DingerLogo from './components/DingerLogo'
 import LoadingScreen from './components/LoadingScreen'
 import ChampionList from './components/ChampionList'
 import BuildRecommendation from './components/BuildRecommendation'
@@ -150,19 +151,11 @@ export default function App() {
         marginBottom: 28, paddingBottom: 16,
         borderBottom: '1px solid rgba(120,90,40,0.25)',
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-          <svg width="28" height="28" viewBox="0 0 48 48" fill="none">
-            <polygon points="24,4 44,14 44,34 24,44 4,34 4,14" stroke={C.gold} strokeWidth="1.5" fill="none" opacity="0.7"/>
-            <circle cx="24" cy="24" r="5" fill={C.gold} opacity="0.9"/>
-          </svg>
-          <div>
-            <h1 style={{ fontFamily: 'Cinzel, serif', fontSize: 20, fontWeight: 700, color: C.goldLight, letterSpacing: '0.12em' }}>
-              BUILD ADVISOR
-            </h1>
-            <p style={{ fontSize: 10, color: C.gold, opacity: 0.6, letterSpacing: '0.2em', textTransform: 'uppercase' }}>
-              {gameData?.my_champion}
-            </p>
-          </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <DingerLogo width={160} uid="result" />
+          <p style={{ fontSize: 10, color: C.gold, opacity: 0.6, letterSpacing: '0.2em', textTransform: 'uppercase', textAlign: 'center' }}>
+            {gameData?.my_champion}
+          </p>
         </div>
         <button onClick={handleReset} style={{
           fontFamily: 'Cinzel, serif', fontSize: 10, letterSpacing: '0.18em',

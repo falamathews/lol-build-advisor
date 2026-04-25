@@ -54,10 +54,10 @@ export default function WaitingScreen() {
           boxShadow: '0 0 6px #3ecf6e',
         }} />
         <div>
-          <p style={{ fontFamily: 'Cinzel, serif', fontSize: 11, color: C.gold, letterSpacing: '0.1em' }}>
+          <p style={{ fontFamily: 'Cinzel, serif', fontSize: 15, color: C.gold, letterSpacing: '0.08em' }}>
             {config.riot_id}
           </p>
-          <p style={{ fontSize: 9, color: '#4a6580', letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 1 }}>
+          <p style={{ fontSize: 11, color: '#4a6580', letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 2 }}>
             {config.region}
           </p>
         </div>
@@ -69,10 +69,10 @@ export default function WaitingScreen() {
         textAlign: 'right',
         animation: 'slideUp 0.5s ease 0.3s both',
       }}>
-        <p style={{ fontSize: 9, color: '#4a6580', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: 2 }}>
+        <p style={{ fontSize: 11, color: '#4a6580', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: 3 }}>
           Patch Atual
         </p>
-        <p style={{ fontFamily: 'Cinzel, serif', fontSize: 13, color: C.gold, letterSpacing: '0.1em', opacity: 0.85 }}>
+        <p style={{ fontFamily: 'Cinzel, serif', fontSize: 16, color: C.gold, letterSpacing: '0.1em', opacity: 0.85 }}>
           {config.patch}
         </p>
       </div>
@@ -117,10 +117,10 @@ export default function WaitingScreen() {
           }}>
             <span style={{ fontSize: 20, flexShrink: 0 }}>{f.icon}</span>
             <div>
-              <p style={{ fontFamily: 'Cinzel, serif', fontSize: 10, color: C.gold, letterSpacing: '0.1em', marginBottom: 2 }}>
+              <p style={{ fontFamily: 'Cinzel, serif', fontSize: 12, color: C.gold, letterSpacing: '0.1em', marginBottom: 3 }}>
                 {f.label}
               </p>
-              <p style={{ fontSize: 10, color: '#4a6580', letterSpacing: '0.03em', lineHeight: 1.4 }}>
+              <p style={{ fontSize: 12, color: '#6a85a0', letterSpacing: '0.02em', lineHeight: 1.5 }}>
                 {f.desc}
               </p>
             </div>

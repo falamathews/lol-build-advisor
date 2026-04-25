@@ -11,36 +11,22 @@ export default function WaitingScreen() {
       alignItems: 'center', justifyContent: 'center',
       animation: 'fadeScreen 0.4s ease',
     }}>
-      {/* Fundo com gradiente quente */}
-      <div style={{
-        position: 'absolute', inset: 0, zIndex: 0,
-        background: `
-          radial-gradient(ellipse 80% 60% at 60% 40%, rgba(160,80,20,0.35) 0%, transparent 70%),
-          radial-gradient(ellipse 60% 80% at 40% 60%, rgba(100,40,10,0.25) 0%, transparent 70%),
-          linear-gradient(160deg, #1a0f06 0%, #0d1520 50%, #0A1428 100%)
-        `,
-      }} />
+      {/* Fundo fallback caso a imagem não carregue */}
+      <div style={{ position: 'absolute', inset: 0, zIndex: 0, background: '#0A1428' }} />
 
-      {/* Heimerdinger */}
-      <div style={{
-        position: 'absolute', right: '6%', bottom: 0,
-        width: 'clamp(260px, 30vw, 420px)',
-        height: 'clamp(360px, 55vh, 580px)',
-        zIndex: 1,
-        maskImage: 'linear-gradient(to top, transparent 0%, black 25%)',
-        WebkitMaskImage: 'linear-gradient(to top, transparent 0%, black 25%)',
-      }}>
+      {/* Heimerdinger — fundo completo */}
+      <div style={{ position: 'absolute', inset: 0, zIndex: 1 }}>
         <img
           src="/heimerdinger-bg.png"
           alt="Heimerdinger"
-          style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center' }}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center center' }}
         />
       </div>
 
-      {/* Overlay escuro inferior */}
+      {/* Overlay escuro sobre a imagem inteira */}
       <div style={{
         position: 'absolute', inset: 0, zIndex: 2,
-        background: 'linear-gradient(to bottom, transparent 30%, rgba(10,20,40,0.7) 60%, #0A1428 100%)',
+        background: 'linear-gradient(to bottom, rgba(10,20,40,0.45) 0%, rgba(10,20,40,0.55) 40%, rgba(10,20,40,0.82) 70%, #0A1428 100%)',
         pointerEvents: 'none',
       }} />
 

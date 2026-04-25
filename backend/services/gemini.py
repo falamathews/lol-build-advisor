@@ -104,6 +104,13 @@ def _enrich_with_icons(build_data: dict, items: dict, patch: str) -> dict:
     return build_data
 
 
+def _format_patch(patch: str) -> str:
+    parts = patch.split('.')
+    if len(parts) >= 2:
+        return f"{int(parts[0]) + 10}.{parts[1]}"
+    return patch
+
+
 def get_build_recommendation(my_champion: str, allies: list, enemies: list) -> dict:
     items = get_items()
     patch = get_current_patch()
@@ -123,4 +130,6 @@ def get_build_recommendation(my_champion: str, allies: list, enemies: list) -> d
         text = text.strip()
 
     build_data = json.loads(text)
-    return _enrich_with_icons(build_data, items, patch)
+    build_data = _enrich_with_icons(build_data, items, patch)
+    build_data["patch"] = _format_patch(patch)
+    return build_data

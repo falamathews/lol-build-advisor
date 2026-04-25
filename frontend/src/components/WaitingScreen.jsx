@@ -83,7 +83,7 @@ export default function WaitingScreen() {
         display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
         gap: 16, textAlign: 'center',
       }}>
-        <DingerLogo width={320} uid="waiting" />
+        <DingerLogo width={420} uid="waiting" />
 
         {/* Pontos pulsando */}
         <div style={{ display: 'flex', gap: 10, marginTop: 8 }}>

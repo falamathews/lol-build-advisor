@@ -2,20 +2,21 @@ const C = {
   gold: '#C8A964',
   goldLight: '#F0E6D3',
   goldBorder: '#785A28',
-  redBorder: '#C0392B',
+  red: '#C0392B',
 }
 
 function ChampionCard({ name, icon, isPlayer = false, isAlly = true }) {
-  const border = isAlly ? (isPlayer ? C.gold : C.goldBorder) : C.redBorder
-  const glow = isPlayer ? '0 0 16px rgba(200,169,100,0.6), 0 0 32px rgba(200,169,100,0.2)' : 'none'
-  const size = isPlayer ? 58 : 46
+  const size = isPlayer ? 64 : 52
+  const borderColor = isAlly ? (isPlayer ? C.gold : C.goldBorder) : C.red
+  const glow = isPlayer ? '0 0 18px rgba(200,169,100,0.7), 0 0 36px rgba(200,169,100,0.25)' : 'none'
+  const roleColor = isAlly ? C.gold : '#e07070'
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5, animation: 'slideUp 0.4s ease both' }}>
       <div style={{
         position: 'relative', width: size, height: size, flexShrink: 0,
-        border: `${isPlayer ? 2 : 1}px solid ${border}`,
-        boxShadow: glow,
+        border: `${isPlayer ? 2 : 1}px solid ${borderColor}`,
+        boxShadow: glow, overflow: 'hidden',
       }}>
         {icon ? (
           <img src={icon} alt={name} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
@@ -32,8 +33,9 @@ function ChampionCard({ name, icon, isPlayer = false, isAlly = true }) {
         )}
       </div>
       <span style={{
-        fontSize: 10, letterSpacing: '0.04em', textAlign: 'center',
-        maxWidth: 62, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+        fontSize: 10, letterSpacing: '0.03em', textAlign: 'center',
+        maxWidth: isPlayer ? 90 : 64,
+        overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
         color: isPlayer ? C.gold : (isAlly ? C.goldLight : '#e07070'),
         opacity: isPlayer ? 1 : 0.8,
         fontWeight: isPlayer ? 600 : 400,
@@ -42,8 +44,10 @@ function ChampionCard({ name, icon, isPlayer = false, isAlly = true }) {
       </span>
       {isPlayer && (
         <span style={{
-          fontSize: 9, letterSpacing: '0.1em', textTransform: 'uppercase',
-          color: C.gold, opacity: 0.6,
+          fontSize: 9, fontFamily: 'Cinzel, serif', letterSpacing: '0.1em',
+          color: roleColor, opacity: 0.6,
+          background: `${roleColor}18`, padding: '1px 6px',
+          border: `1px solid ${roleColor}28`,
         }}>
           VOCÊ
         </span>
@@ -52,20 +56,19 @@ function ChampionCard({ name, icon, isPlayer = false, isAlly = true }) {
   )
 }
 
-function TeamPanel({ title, champions, icons = [], isAlly }) {
+function TeamPanel({ champions, icons = [], isAlly }) {
   const borderColor = isAlly ? C.goldBorder : 'rgba(192,57,43,0.4)'
   const headerColor = isAlly ? C.gold : '#e07070'
 
   return (
     <div style={{
       flex: 1, padding: '16px 20px',
-      background: 'rgba(7,21,35,0.8)',
-      backdropFilter: 'blur(8px)',
+      background: 'rgba(7,21,35,0.85)', backdropFilter: 'blur(10px)',
       border: `1px solid ${borderColor}`,
-      animation: `slideUp 0.5s ease ${isAlly ? '0.05s' : '0.15s'} both`,
+      animation: `slideUp 0.5s ease ${isAlly ? '0.05s' : '0.12s'} both`,
     }}>
       <p style={{
-        fontFamily: 'Cinzel, serif', fontSize: 10, letterSpacing: '0.25em',
+        fontFamily: 'Cinzel, serif', fontSize: 10, letterSpacing: '0.22em',
         color: headerColor, textTransform: 'uppercase', marginBottom: 14, opacity: 0.85,
       }}>
         {isAlly ? '▲ Seu Time' : '▼ Time Inimigo'}
@@ -90,16 +93,16 @@ export default function ChampionList({ myChampion, allies, enemies, myChampionIc
   const myTeamIcons = [myChampionIcon, ...alliesIcons]
 
   return (
-    <div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
-        <div style={{ width: 3, height: 16, background: C.gold }} />
-        <h3 style={{ fontFamily: 'Cinzel, serif', fontSize: 13, letterSpacing: '0.18em', color: '#F0E6D3', textTransform: 'uppercase' }}>
+    <div style={{ animation: 'slideUp 0.4s ease 0.0s both' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
+        <div style={{ width: 3, height: 16, background: C.gold, flexShrink: 0 }} />
+        <h3 style={{ fontFamily: 'Cinzel, serif', fontSize: 12, letterSpacing: '0.2em', color: C.goldLight, textTransform: 'uppercase' }}>
           Composição da Partida
         </h3>
       </div>
-      <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-        <TeamPanel title="Seu Time" champions={myTeam} icons={myTeamIcons} isAlly={true} />
-        <TeamPanel title="Time Inimigo" champions={enemies} icons={enemiesIcons} isAlly={false} />
+      <div style={{ display: 'flex', gap: 12 }}>
+        <TeamPanel champions={myTeam} icons={myTeamIcons} isAlly={true} />
+        <TeamPanel champions={enemies} icons={enemiesIcons} isAlly={false} />
       </div>
     </div>
   )

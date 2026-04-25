@@ -148,14 +148,35 @@ export default function App() {
       {/* Header */}
       <div style={{
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        marginBottom: 28, paddingBottom: 16,
-        borderBottom: '1px solid rgba(120,90,40,0.25)',
+        marginBottom: 28, paddingBottom: 18,
+        borderBottom: '1px solid rgba(120,90,40,0.2)',
       }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
           <DingerLogo width={160} uid="result" />
-          <p style={{ fontSize: 10, color: C.gold, opacity: 0.6, letterSpacing: '0.2em', textTransform: 'uppercase', textAlign: 'center' }}>
-            {gameData?.my_champion}
-          </p>
+          <div style={{ width: 1, height: 52, background: 'rgba(120,90,40,0.35)' }} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+            <div style={{
+              width: 52, height: 52, borderRadius: '50%', overflow: 'hidden',
+              border: `2px solid ${C.gold}`,
+              boxShadow: '0 0 16px rgba(200,169,100,0.5)',
+              flexShrink: 0,
+            }}>
+              {gameData?.my_champion_icon
+                ? <img src={gameData.my_champion_icon} alt={gameData.my_champion} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                : <div style={{ width: '100%', height: '100%', background: '#1a2a40' }} />
+              }
+            </div>
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 5 }}>
+                <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 22, fontWeight: 700, color: C.goldLight, letterSpacing: '0.08em' }}>
+                  {gameData?.my_champion?.toUpperCase()}
+                </h2>
+              </div>
+              <p style={{ fontSize: 11, color: '#4a6580', letterSpacing: '0.08em' }}>
+                Partida ao vivo · Patch {buildData?.patch || '—'}
+              </p>
+            </div>
+          </div>
         </div>
         <button onClick={handleReset} style={{
           fontFamily: 'Cinzel, serif', fontSize: 10, letterSpacing: '0.18em',

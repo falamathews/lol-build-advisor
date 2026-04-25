@@ -19,7 +19,8 @@ export default function WaitingScreen() {
         <img
           src="/heimerdinger-bg.png"
           alt="Heimerdinger"
-          style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center center' }}
+          draggable="false"
+          style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center center', userSelect: 'none', pointerEvents: 'none' }}
         />
       </div>
 
